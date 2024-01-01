@@ -1,21 +1,24 @@
 #[macro_use] extern crate rocket;
 
+use rocket::form::Form;
+
+#[derive(FromForm)]
 struct Wizard {
     name: String,
-    level: u8,
+    level: i32,
 }
 
-#[get("/")]
-fn world() -> &'static str {
-    "Hello, world!"
-}
+#[post("/add_wizard", data = "<wizard>")]
+fn add_wizard(wizard: Form<Wizard>) -> String {
+    let name = &wizard.name;
+    let level = wizard.level;
 
-#[get("/hello/<name>")]
-fn hello(name: &str) -> String {
-    format!("Hello, {}!", name)
+    // Logic to add the wizard to your system/database goes here
+
+    format!("Added Wizard - Name: {}, Level: {}", name, level)
 }
 
 #[launch]
 fn rocket() -> _ {
-    rocket::build().mount("/", routes![world])
+    rocket::build().mount("/", routes![add_wizard])
 }
