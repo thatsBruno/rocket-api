@@ -1,5 +1,10 @@
 #[macro_use] extern crate rocket;
 
+struct Wizard {
+    name: String,
+    level: u8,
+}
+
 #[get("/")]
 fn world() -> &'static str {
     "Hello, world!"
